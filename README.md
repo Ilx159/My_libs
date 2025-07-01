@@ -1,6 +1,3 @@
-#Large_text
-conjunto de minilibs que juntas constroem um editor de texto para terminal.
+# My_Clibs
+conjunto de minilibs que juntas podem fazer grandes coisas.
 
-´´´
-perfeito para quem é largo atrás!
-´´´
