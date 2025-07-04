@@ -1,13 +1,17 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
-#include <ctype.h>
+#include "input.h"
 
 struct termios origin_termios;
 
+char ver = 0;
+
 void raw_mode_off(){
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &origin_termios);
+  ver = 0;
 }
 
 void raw_mode_on(){
@@ -20,28 +24,18 @@ void raw_mode_on(){
   raw.c_iflag &= ~(IXON | ICRNL);
   raw.c_lflag &= ~(ECHO | ICANON | ISIG);
 
-
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
-}
-
-
-
-int main(){
-
-  raw_mode_on();
+  ver = 1;
   
-  char letter;
-  
+} 
 
-  while(read(STDIN_FILENO, &letter, 1) == 1 && letter != 'q'){
-    if (iscntrl(letter)) {
-      printf("%d \n", letter);
-    } else {
-      printf("%c / %d \n", letter, letter);
-    }
+char input(){
+  char key;
 
+  if(!ver){
+    printf("raw_mode is disable");
+    return -1;
   }
-  
-
-  return 0;
+  if(read(STDIN_FILENO, &key, 1) == 1)
+    return key;
 }
