@@ -9,7 +9,7 @@ int main(){
 
   while (c != 'q') {
     c = input();
-    printf("%c", c);
+    printf("%d\n\r", c);
     fflush(stdout);
   }
 
