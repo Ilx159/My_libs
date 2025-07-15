@@ -16,15 +16,16 @@ u_int8 Init_input(char *event_path){
   
   if(fileds[0].fd<0){
     printf("Error to read the input archive");
-    return 1;
+    return 0;
   }
   fileds[0].events = POLLIN;
+  return 1;
 }
 
 u_int8 Read_input(I_input inputs[3]){
    
   int ret;
-  static int i = 0;
+  static int i = 1;
  
   ret = poll(fileds, 1, timeout_ms);
     
@@ -35,12 +36,12 @@ u_int8 Read_input(I_input inputs[3]){
         printf("ERROR %d\n", (int)r);
         return 0;
       } else {
-        if(i < 3) i = 0;
-        inputs[i].type = input_data.type;    
-        inputs[i].code = input_data.code;
-        inputs[i].value = input_data.value;
+        if(i < 4) i = 1;
+        inputs[i-1].type = input_data.type;    
+        inputs[i-1].code = input_data.code;
+        inputs[i-1].value = input_data.value;
 
-        printf("\n\n%u / %u / %u", inputs[i].type, inputs[i].code, inputs[i].value);
+        printf("\n\n%u / %u / %u", inputs[i-1].type, inputs[i-1].code, inputs[i-1].value);
         i++;
       }
     } else {
